@@ -2,6 +2,7 @@ import streamlit as st
 from datetime import datetime
 from typing import Dict, Optional
 import html
+import json
 
 from color_psychology import get_article_colors
 from ai_services import generate_opinion
@@ -24,8 +25,10 @@ def render_news_card(article: Dict, color_scheme: Dict = None, show_full: bool =
     news_type = article_colors.get('news_type', 'neutral')
     
     # Create the card HTML with dynamic styling
-    card_id = f"card_{article.get('id', hash(article.get('url', ''))}"
+    card_id = f"card_{article.get('id', hash(article.get('url', '')))}"
     
+    safe_url_js = json.dumps(article.get('url', ''))
+
     # Card content
     title = html.escape(article.get('title', 'No Title'))
     summary = html.escape(article.get('summary', 'No summary available'))
@@ -116,7 +119,7 @@ def render_news_card(article: Dict, color_scheme: Dict = None, show_full: bool =
             gap: 8px;
             flex-wrap: wrap;
         ">
-            <button class="card-action-btn" onclick="openArticle('{article.get('url', '')}')" style="
+            <button class="card-action-btn" onclick="openArticle({safe_url_js})" style="
                 background: {article_colors.get('primary', '#1A73E8')};
                 color: white;
                 border: none;

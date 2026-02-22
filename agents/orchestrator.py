@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from typing import Dict, Any, List, Optional
-from datetime import datetime
+from datetime import datetime, timedelta
 from agents.news_agent import NewsAgent
 from agents.review_agent import ReviewAgent
 from agents.content_agent import ContentAgent
@@ -60,6 +60,13 @@ class AgentOrchestrator:
             self.running = False
             raise
     
+
+    async def run_single_cycle(self):
+        """Run one orchestration cycle for local testing and health checks."""
+        if not self.agents:
+            self.initialize_agents()
+        await self.execute_workflows()
+
     async def monitor_workflows(self):
         """Monitor and manage workflows"""
         try:
