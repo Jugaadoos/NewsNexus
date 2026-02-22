@@ -102,6 +102,7 @@ AI News Hub is a comprehensive news platform built with Streamlit that provides 
 
 Changelog:
 - July 04, 2025. Initial setup
+- February 10, 2026. Stabilized core agent runtime: fixed DB session lifecycle, added SQLite default, added AI offline fallback mode, added one-cycle orchestrator/core runner, and resolved syntax errors that blocked compilation.
 
 ## User Preferences
 

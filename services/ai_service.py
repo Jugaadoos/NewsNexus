@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import openai
 from typing import Dict, List, Any
 import logging
@@ -8,14 +9,20 @@ from datetime import datetime
 class AIService:
     def __init__(self):
         self.api_key = os.getenv("OPENAI_API_KEY")
-        if not self.api_key:
-            raise ValueError("OpenAI API key not found in environment variables")
-        
-        self.client = openai.OpenAI(api_key=self.api_key)
+        self.offline_mode = not bool(self.api_key)
+        self.client = openai.OpenAI(api_key=self.api_key) if self.api_key else None
+
+        if self.offline_mode:
+            logging.warning(
+                "OPENAI_API_KEY not set. AIService is running in offline fallback mode."
+            )
         
     def summarize_article(self, content: str, max_words: int = 100) -> str:
         """Generate AI summary of article content"""
         try:
+            if self.offline_mode:
+                return self._offline_summary(content, max_words=max_words)
+
             # the newest OpenAI model is "gpt-4o" which was released May 13, 2024.
             # do not change this unless explicitly requested by the user
             response = self.client.chat.completions.create(
@@ -43,6 +50,9 @@ class AIService:
     def analyze_sentiment(self, text: str) -> Dict[str, Any]:
         """Analyze sentiment of text content"""
         try:
+            if self.offline_mode:
+                return self._offline_sentiment(text)
+
             response = self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -73,6 +83,9 @@ class AIService:
     def categorize_news(self, title: str, content: str) -> str:
         """Categorize news article into appropriate category"""
         try:
+            if self.offline_mode:
+                return self._offline_category(title, content)
+
             categories = [
                 "World", "Politics", "Business", "Technology", 
                 "Sports", "Entertainment", "Health", "Science"
@@ -104,6 +117,9 @@ class AIService:
     def generate_theme(self, prompt: str) -> Dict[str, Any]:
         """Generate custom theme based on user prompt"""
         try:
+            if self.offline_mode:
+                return self._get_default_theme()
+
             response = self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -129,6 +145,9 @@ class AIService:
     def check_originality(self, content: str, existing_articles: List[str]) -> Dict[str, Any]:
         """Check content originality against existing articles"""
         try:
+            if self.offline_mode:
+                return {"is_original": True, "similarity_score": 0.0, "similar_articles": []}
+
             response = self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -154,6 +173,9 @@ class AIService:
     def generate_opinion(self, article_content: str, perspective: str) -> str:
         """Generate editorial opinion on article"""
         try:
+            if self.offline_mode:
+                return "Opinion unavailable in offline mode"
+
             response = self.client.chat.completions.create(
                 model="gpt-4o",
                 messages=[
@@ -179,6 +201,9 @@ class AIService:
     def create_embeddings(self, text: str) -> List[float]:
         """Create embeddings for text similarity"""
         try:
+            if self.offline_mode:
+                return []
+
             response = self.client.embeddings.create(
                 model="text-embedding-3-small",
                 input=text
@@ -209,3 +234,47 @@ class AIService:
                 "small": "8px"
             }
         }
+
+    def _offline_summary(self, content: str, max_words: int = 100) -> str:
+        words = (content or "").split()
+        if not words:
+            return "Summary unavailable"
+        return " ".join(words[:max_words])
+
+    def _offline_sentiment(self, text: str) -> Dict[str, Any]:
+        lowered = (text or "").lower()
+        positive_words = {"gain", "growth", "rise", "bull", "profit", "surge", "improve"}
+        negative_words = {"loss", "drop", "fall", "bear", "decline", "risk", "crash"}
+
+        tokens = re.findall(r"\b[a-z]+\b", lowered)
+        pos = sum(1 for t in tokens if t in positive_words)
+        neg = sum(1 for t in tokens if t in negative_words)
+
+        score = 0.0
+        if pos or neg:
+            score = (pos - neg) / max(pos + neg, 1)
+
+        if score > 0.15:
+            label = "positive"
+        elif score < -0.15:
+            label = "negative"
+        else:
+            label = "neutral"
+
+        return {"label": label, "confidence": min(1.0, abs(score)), "score": score}
+
+    def _offline_category(self, title: str, content: str) -> str:
+        text = f"{title} {content}".lower()
+        mapping = {
+            "Politics": ["election", "government", "senate", "president", "minister"],
+            "Business": ["market", "stock", "economy", "company", "trade"],
+            "Technology": ["tech", "ai", "software", "chip", "startup"],
+            "Sports": ["match", "league", "tournament", "player", "coach"],
+            "Entertainment": ["movie", "music", "celebrity", "show", "festival"],
+            "Health": ["health", "disease", "hospital", "medicine", "vaccine"],
+            "Science": ["research", "study", "scientist", "space", "climate"],
+        }
+        for category, keywords in mapping.items():
+            if any(keyword in text for keyword in keywords):
+                return category
+        return "World"

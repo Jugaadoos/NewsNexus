@@ -1,7 +1,15 @@
-import feedparser
+try:
+    import feedparser
+except ImportError:
+    feedparser = None
+
 import requests
 from bs4 import BeautifulSoup
-import trafilatura
+
+try:
+    import trafilatura
+except ImportError:
+    trafilatura = None
 from typing import List, Dict, Any, Optional
 import logging
 from datetime import datetime, timedelta
@@ -63,6 +71,10 @@ class NewsService:
         articles = []
         
         try:
+            if feedparser is None:
+                logging.warning('feedparser not installed; returning no fetched articles.')
+                return []
+
             feeds_to_process = self.rss_feeds.get(category, []) if category else []
             if not feeds_to_process:
                 # If no specific category, get from all feeds
@@ -136,6 +148,9 @@ class NewsService:
     def _extract_content(self, url: str) -> str:
         """Extract content from URL using trafilatura"""
         try:
+            if trafilatura is None:
+                return None
+
             downloaded = trafilatura.fetch_url(url)
             if downloaded:
                 text = trafilatura.extract(downloaded)

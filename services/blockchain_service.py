@@ -4,7 +4,6 @@ import time
 from typing import Dict, Any, List, Optional
 import logging
 from datetime import datetime
-from web3 import Web3
 from database.connection import get_db_connection
 from database.models import BlockchainRecord
 
