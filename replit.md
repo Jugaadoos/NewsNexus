@@ -14,13 +14,13 @@ AI News Hub is a comprehensive news platform built with Streamlit that provides 
 
 ### Backend Architecture
 - **Language**: Python 3.x
-- **Database**: PostgreSQL with SQLAlchemy ORM
+- **Database**: Environment-specific runtime policy (PostgreSQL for preprod/prod; SQLite fallback for local/dev when `DATABASE_URL` is unset) with SQLAlchemy ORM
 - **AI Integration**: OpenAI GPT-4o for content analysis and generation
 - **Async Processing**: AI agents running on asyncio for concurrent operations
 - **Modular Design**: Service-oriented architecture with separate modules for distinct functionalities
 
 ### Data Storage Solutions
-- **Primary Database**: PostgreSQL for user data, articles, analytics, and system records
+- **Primary Database**: PostgreSQL for user data, articles, analytics, and system records in preprod/prod; SQLite fallback in local/dev when `DATABASE_URL` is unset
 - **Session Storage**: Streamlit session state for user preferences and temporary data
 - **Blockchain Records**: Local blockchain simulation for review verification
 - **File Storage**: Base64 encoding for images and media content
@@ -75,7 +75,7 @@ AI News Hub is a comprehensive news platform built with Streamlit that provides 
 
 ### Core Services
 - **OpenAI API**: Content analysis and generation
-- **PostgreSQL**: Primary data storage
+- **PostgreSQL**: Required primary data storage in preprod/prod
 - **Stripe**: Payment processing
 - **Geolocation APIs**: Location services
 
@@ -89,7 +89,7 @@ AI News Hub is a comprehensive news platform built with Streamlit that provides 
 
 ### Development Environment
 - **Local Development**: Streamlit development server
-- **Database**: Local PostgreSQL instance
+- **Database**: PostgreSQL if `DATABASE_URL` is provided; otherwise SQLite fallback for local/dev
 - **Environment Variables**: Configuration through .env files
 
 ### Production Deployment
@@ -103,6 +103,15 @@ AI News Hub is a comprehensive news platform built with Streamlit that provides 
 Changelog:
 - July 04, 2025. Initial setup
 - February 10, 2026. Stabilized core agent runtime: fixed DB session lifecycle, added SQLite default, added AI offline fallback mode, added one-cycle orchestrator/core runner, and resolved syntax errors that blocked compilation.
+
+## Database mode selection (canonical policy)
+
+Use the same runtime policy across all environments to avoid configuration drift:
+- **preprod/prod:** `DATABASE_URL` must be set to a PostgreSQL connection string.
+- **local/dev fallback:** if `DATABASE_URL` is unset, the app defaults to SQLite (`sqlite:///newsnexus.db`) via `database/connection.py`.
+- **expected environment variables:** keep `DATABASE_URL` as the primary selector; keep `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, and `PGPASSWORD` populated for platform/tooling compatibility through `config.py`.
+
+Rationale: one explicit policy reduces ambiguity, keeps local onboarding simple, and prevents environment-specific behavior mismatches during deployment.
 
 ## User Preferences
 

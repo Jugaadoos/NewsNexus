@@ -6,7 +6,7 @@
 
 ## Infrastructure overview
 - Runtime: Streamlit application process.
-- Database: PostgreSQL.
+- Database runtime policy: preprod/prod must use PostgreSQL; local/dev fall back to SQLite when `DATABASE_URL` is unset.
 - External services: OpenAI, Stripe, RSS providers, optional maps/geo APIs.
 - Configuration: environment variables through `config.py` pathways.
 
