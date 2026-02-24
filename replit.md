@@ -1,5 +1,7 @@
 # AI News Hub - System Architecture Overview
 
+> **Note:** Audience-specific derivative; canonical technical truth lives in `docs/product-foundation.md` and `docs/08-technical-design-document-tdd.md`.
+
 ## Overview
 
 AI News Hub is a comprehensive news platform built with Streamlit that provides personalized news consumption through AI-powered features. The platform integrates multiple AI agents for content curation, blockchain-based review systems, geographic content filtering, and sophisticated user engagement tracking.

@@ -2,6 +2,15 @@
 
 This folder is the central documentation hub for NewsNexus.
 
+## Canonical architecture source of truth
+
+To avoid architecture drift between audience-specific summaries and implementation-facing documentation, the **canonical technical truth** for architecture decisions lives in:
+
+1. `product-foundation.md` (business + product context that informs architecture constraints)
+2. `08-technical-design-document-tdd.md` (technical architecture, component boundaries, and implementation details)
+
+When architecture statements appear elsewhere (for example in onboarding summaries, AI-agent context docs, or child-friendly explainers), those documents must be treated as derivatives and periodically reconciled against the canonical sources above.
+
 ## Why this hub exists
 
 The project now includes a complete documentation set that maps to common product, design, engineering, legal, and launch requirements. The goal is to make code and business intent understandable for:
