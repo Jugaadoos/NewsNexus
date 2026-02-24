@@ -56,3 +56,8 @@ When escalating, include:
 - Reproduction steps.
 - Expected vs observed behavior.
 - Relevant logs/screenshots.
+
+## 8) Release and rollback context
+- Release-specific risk, rollout windows, and rollback runbooks are tracked in [`docs/release-notes.md`](./release-notes.md).
+- Infrastructure and security baseline expectations during incidents are tracked in [`docs/12-infrastructure-and-security-documentation.md`](./12-infrastructure-and-security-documentation.md).
+- When escalating incidents, include the relevant release entry ID/date from release notes so responders can correlate behavior changes to shipped documentation/process updates.
