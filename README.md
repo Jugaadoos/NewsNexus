@@ -39,6 +39,7 @@ streamlit run app.py
 
 ### Core documentation hub
 - `docs/README.md`
+- `docs/pr-history.md` (merged PR ledger; append one row per merged PR)
 
 ### Strategic and planning
 - `docs/product-foundation.md`
@@ -79,6 +80,12 @@ streamlit run app.py
 - Update relevant docs for all significant behavior changes.
 - Maintain traceability from feature → data model → service → UI.
 - Document rationale, risks, and known limitations.
+
+### Pull request documentation policy
+
+- Use `.github/pull_request_template.md` for every pull request.
+- Every merged PR must append one new row to `docs/pr-history.md`.
+- PR-history entries must include scope, documentation impact, deployment/migration notes, and rollback context so future maintainers and AI agents can reconstruct decisions quickly.
 
 ---
 For deep context, start with `docs/README.md` and `docs/product-foundation.md`.

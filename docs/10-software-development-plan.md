@@ -16,8 +16,8 @@
 
 ## Branching and code review
 - Use feature branches with focused, atomic commits.
-- Require PR descriptions to include: what, why, risk, rollback, docs updates.
-- Keep docs updates in same PR as behavior changes.
+- Require `.github/pull_request_template.md` for PR descriptions so every review includes summary, why, risk, rollback, docs changed, test evidence, and deployment impact.
+- Keep docs updates in the same PR as behavior changes and record merged outcomes in `docs/pr-history.md`.
 
 ## Coding standards
 - Small, cohesive functions and modules.
@@ -28,6 +28,7 @@
 - Implementation complete.
 - Basic validation executed.
 - Documentation and release notes updated.
+- A new merged-PR row is appended to `docs/pr-history.md` (date, PR link/ID, scope, impacted docs, migration/deploy notes, rollback note).
 - Security and data-contract implications reviewed.
 
 ## Change rationale
