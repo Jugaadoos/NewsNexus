@@ -30,6 +30,7 @@ The project now includes a complete documentation set that maps to common produc
 - `10-software-development-plan.md`
 - `11-qa-testing-plan-and-acceptance-criteria.md`
 - `12-infrastructure-and-security-documentation.md`
+- `pr-history.md` (required merged PR ledger)
 - `ai-agent-context.md`
 - `child-friendly-architecture.md`
 
@@ -53,9 +54,17 @@ When product behavior changes, update:
 2. Relevant legal docs if data usage or transaction flows changed.
 3. `release-notes.md` with a dated entry.
 4. README links if document names or scope changed.
+5. `pr-history.md` by appending one row for each merged PR.
 
 Every documentation update should explicitly include:
 - What changed.
 - Why the change was made.
 - Operational impact.
 - Follow-up tasks and known gaps.
+
+## Pull request governance artifacts
+
+- PR authoring template: `../.github/pull_request_template.md`
+- Merged PR ledger: `pr-history.md`
+
+These artifacts are mandatory process controls for keeping decision context durable over time. Together they ensure each PR captures intent during review and then records final merge outcomes for future audits, onboarding, and AI-assisted maintenance.
