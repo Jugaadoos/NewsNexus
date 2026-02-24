@@ -29,6 +29,15 @@ At minimum:
 - PostgreSQL variables (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`) or `DATABASE_URL`
 - Optional: Stripe, Zoho, Google Maps, PayPal
 
+### Database mode selection (canonical policy)
+
+Use the same runtime policy across all environments to avoid configuration drift:
+- **preprod/prod:** `DATABASE_URL` must be set to a PostgreSQL connection string.
+- **local/dev fallback:** if `DATABASE_URL` is unset, the app defaults to SQLite (`sqlite:///newsnexus.db`) via `database/connection.py`.
+- **expected environment variables:** keep `DATABASE_URL` as the primary selector; keep `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, and `PGPASSWORD` populated for platform/tooling compatibility through `config.py`.
+
+Rationale: one explicit policy reduces ambiguity, keeps local onboarding simple, and prevents environment-specific behavior mismatches during deployment.
+
 ### 3) Run the app
 
 ```bash

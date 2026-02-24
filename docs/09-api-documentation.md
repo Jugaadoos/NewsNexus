@@ -26,6 +26,13 @@ NewsNexus is currently implemented primarily as an internal-module architecture 
 ### `auth.py` and `services/auth_service.py`
 - Login/signup/session and permission checks
 
+## Environment-specific data backend
+To keep internal API assumptions aligned with runtime behavior, treat `database/connection.py` and `config.py` as normative references for backend selection and environment contracts.
+
+- `database/connection.py` governs live database binding (`DATABASE_URL` first, SQLite fallback when unset).
+- `config.py` defines expected environment variables and remains the shared contract surface for deployment and local setup (`DATABASE_URL`, `PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`).
+- Environment policy: preprod/prod integrations must target PostgreSQL via `DATABASE_URL`; local/dev integrations can rely on SQLite fallback when that variable is absent.
+
 ## External service contracts
 - OpenAI API: model-based text generation and analysis.
 - Stripe: subscription/payment operations.
