@@ -1,5 +1,8 @@
 # AI News Hub Explained for Kids (and Curious Grown-ups)
 
+> **Note:** Audience-specific derivative; canonical technical truth lives in `docs/product-foundation.md` and `docs/08-technical-design-document-tdd.md`.
+
+
 Hi! 👋
 Think of this app like a **smart news city** where many helpers work together.
 
