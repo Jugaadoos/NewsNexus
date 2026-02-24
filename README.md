@@ -58,6 +58,7 @@ streamlit run app.py
 - `docs/10-software-development-plan.md`
 - `docs/11-qa-testing-plan-and-acceptance-criteria.md`
 - `docs/12-infrastructure-and-security-documentation.md`
+- `docs/deployment-runbook.md`
 - `docs/ai-agent-context.md`
 - `docs/child-friendly-architecture.md`
 

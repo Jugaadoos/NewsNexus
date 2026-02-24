@@ -30,6 +30,7 @@ The project now includes a complete documentation set that maps to common produc
 - `10-software-development-plan.md`
 - `11-qa-testing-plan-and-acceptance-criteria.md`
 - `12-infrastructure-and-security-documentation.md`
+- `deployment-runbook.md` (manual release and rollback procedure for preprod/prod)
 - `ai-agent-context.md`
 - `child-friendly-architecture.md`
 
