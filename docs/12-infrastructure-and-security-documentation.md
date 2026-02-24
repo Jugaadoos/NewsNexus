@@ -26,6 +26,9 @@
 - Define retention windows for event-level telemetry.
 - Provide legal policy links and update when processing changes.
 
+## Deployment operations
+- Use `docs/deployment-runbook.md` as the authoritative manual procedure for preprod and prod deployments, including prerequisites, secret validation, database readiness checks, smoke tests, rollback steps, and sign-offs.
+
 ## Incident response basics
 1. Detect via app errors, analytics anomalies, or provider failures.
 2. Triage by severity and user impact.
