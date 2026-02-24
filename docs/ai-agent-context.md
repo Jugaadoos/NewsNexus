@@ -1,5 +1,8 @@
 # AI Agent Context Guide for NewsNexus
 
+> **Note:** Audience-specific derivative; canonical technical truth lives in `docs/product-foundation.md` and `docs/08-technical-design-document-tdd.md`.
+
+
 This document is designed for Codex-like agents and human maintainers who need implementation-level context quickly.
 
 ## 1) Fast orientation

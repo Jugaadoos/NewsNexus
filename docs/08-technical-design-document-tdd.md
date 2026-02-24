@@ -29,6 +29,13 @@ Core entities include users, articles, reviews, subscriptions, ads, affiliate ob
 3. Maintain graceful degradation when APIs are unavailable.
 4. Preserve observability through analytics event capture.
 
+## Environment-specific data backend
+To prevent documentation drift, runtime database behavior must follow implementation in `database/connection.py` and environment declarations in `config.py`.
+
+- `database/connection.py` is the runtime source of truth for backend selection: it uses `DATABASE_URL` when set, and otherwise defaults to SQLite (`sqlite:///newsnexus.db`).
+- `config.py` is the environment variable catalog and should continue documenting `DATABASE_URL` plus PostgreSQL-compatible variables (`PGHOST`, `PGPORT`, `PGDATABASE`, `PGUSER`, `PGPASSWORD`) for deployment tooling.
+- Operational policy alignment: preprod/prod must provide PostgreSQL through `DATABASE_URL`; local/dev may intentionally run with the SQLite fallback when `DATABASE_URL` is unset.
+
 ## Open technical debt
 - Standardize schema naming and contracts.
 - Expand automated tests.

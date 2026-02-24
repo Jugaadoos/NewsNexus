@@ -6,7 +6,7 @@
 
 ## Infrastructure overview
 - Runtime: Streamlit application process.
-- Database: PostgreSQL.
+- Database runtime policy: preprod/prod must use PostgreSQL; local/dev fall back to SQLite when `DATABASE_URL` is unset.
 - External services: OpenAI, Stripe, RSS providers, optional maps/geo APIs.
 - Configuration: environment variables through `config.py` pathways.
 
@@ -39,3 +39,11 @@
 - Remove demo OTP assumptions.
 - Expand auth/session auditability.
 - Add dependency scanning and secrets scanning to CI.
+
+## Release governance links
+- Release planning, rollout windows, validation evidence, and rollback procedures are maintained in [`docs/release-notes.md`](./release-notes.md).
+- Incident triage/escalation workflow details are maintained in [`docs/troubleshooting-guide.md`](./troubleshooting-guide.md).
+- During active incidents, use all three documents together:
+  1. `troubleshooting-guide` to classify/triage the issue.
+  2. `release-notes` to identify recent changes and rollback options.
+  3. `infrastructure-and-security-documentation` (this file) to apply security-aware mitigation.
